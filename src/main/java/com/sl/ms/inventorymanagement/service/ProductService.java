@@ -2,6 +2,7 @@ package com.sl.ms.inventorymanagement.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,14 @@ public class ProductService {
 	}
 	public void delete(int id) {
 		prorepo.deleteById(id);
+	}
+	public boolean check(int id) {
+		Optional<Product> pro = prorepo.findById(id);
+		if (pro.isPresent()) {
+			return true;
+		}
+		return false;
+	
 	}
 	
 }

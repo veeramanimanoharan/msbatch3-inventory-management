@@ -81,4 +81,10 @@ public class ProductController {
 		return product;
 		
 	}
+	@GetMapping("/checkproductavail/{product_id}")
+	private boolean checkProductAvail(@PathVariable("product_id") int id){
+		return proService.check(id);
+		
+	}
+	
 }
