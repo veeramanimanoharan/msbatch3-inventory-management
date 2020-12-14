@@ -6,7 +6,7 @@ spring:
 server:
   servlet:
     context-path: /dev
-  port : 8888
+  port : 7777
   
 ---
 spring:

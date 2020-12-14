@@ -24,6 +24,9 @@ public class ProductService {
 	public void save(Product itm) {
 		prorepo.save(itm);
 	}
+	public void savelist(List<Product> itm) {
+		itm.forEach(it->prorepo.save(it));
+	}
 	public Product getById(int id) {
 		return prorepo.findById(id).get();
 	}
