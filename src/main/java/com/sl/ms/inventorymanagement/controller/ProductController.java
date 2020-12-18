@@ -1,5 +1,9 @@
 package com.sl.ms.inventorymanagement.controller;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.opencsv.CSVReader;
 import com.sl.ms.inventorymanagement.model.Product;
 import com.sl.ms.inventorymanagement.service.InventoryService;
 import com.sl.ms.inventorymanagement.service.ProductService;
@@ -86,5 +91,51 @@ public class ProductController {
 		return proService.check(id);
 		
 	}
+	//****************************************************************************
+
+
+	@GetMapping("/upload/csv")
+	private void ttt() throws IOException 
+	{
 	
+	readcsv();
+	}
+	private  void readcsv() throws  IOException {
+		System.out.println("Veera1");
+		
+	
+		CSVReader reader;
+		try {
+			reader = new CSVReader(new FileReader("C:\\samp_inv.csv"), ',');
+		
+
+		List<Product> prods = new ArrayList<Product>();
+
+		// read line by line
+		String[] record = null;
+		record = reader.readNext();
+
+		while ((record = reader.readNext()) != null) {
+			Product pro = new Product();
+			pro.setId(Integer.parseInt(record[0]));
+			pro.setName(record[1]);
+			pro.setPrice(Double.parseDouble(record[2]));
+			pro.setQuantity(Integer.parseInt(record[3]));
+			prods.add(pro);
+//			System.out.println(pro);
+//			proService.save(pro);
+			
+		}
+
+		System.out.println(prods);
+		proService.savelist(prods);
+		
+		
+		reader.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}		
+
 }
