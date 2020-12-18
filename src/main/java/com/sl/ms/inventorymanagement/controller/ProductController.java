@@ -118,7 +118,7 @@ public class ProductController {
 	}
 	
 	
-	@PostMapping("/upload/csvFiles")
+	@PostMapping("/products/file")
 	private String uploadMultiFile(@RequestParam("file") MultipartFile[] files) throws IOException  
 	{
 //	System.out.println(files.length+ "    ");
