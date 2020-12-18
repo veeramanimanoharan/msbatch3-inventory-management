@@ -3,6 +3,7 @@ package com.sl.ms.inventorymanagement.controller;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.opencsv.CSVReader;
+import com.sl.ms.inventorymanagement.model.Inventory;
 import com.sl.ms.inventorymanagement.model.Product;
 import com.sl.ms.inventorymanagement.service.InventoryService;
 import com.sl.ms.inventorymanagement.service.ProductService;
@@ -93,7 +97,16 @@ public class ProductController {
 	}
 	//****************************************************************************
 
-
+	@GetMapping("/inv")
+	private void tttt()
+	{
+		Inventory inv = new Inventory();
+		inv.setDate(LocalDateTime.now());
+		inv.setSample("sample");
+		invService.save(inv);
+	}
+	
+	
 	@GetMapping("/upload/csv")
 	private void ttt() throws IOException 
 	{
@@ -101,7 +114,7 @@ public class ProductController {
 	readcsv();
 	}
 	private  void readcsv() throws  IOException {
-		System.out.println("Veera1");
+//		System.out.println("Veera1");
 		
 	
 		CSVReader reader;
@@ -129,6 +142,19 @@ public class ProductController {
 
 		System.out.println(prods);
 		proService.savelist(prods);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String arrayToJson = objectMapper.writeValueAsString(prods);
+        System.out.println("1. Convert List of person objects to JSON :");
+        System.out.println(arrayToJson);
+        
+        
+		Inventory inv = new Inventory();
+		inv.setDate(LocalDateTime.now());
+		inv.setSample(arrayToJson);
+		invService.save(inv);
 		
 		
 		reader.close();
