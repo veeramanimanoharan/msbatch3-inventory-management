@@ -37,7 +37,10 @@ public class ProductService {
 	public boolean check(int id) {
 		Optional<Product> pro = prorepo.findById(id);
 		if (pro.isPresent()) {
-			return true;
+			if (pro.get().getQuantity()!=0){
+				return true;
+			}
+			
 		}
 		return false;
 	
