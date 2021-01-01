@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.sl.ms.inventorymanagement.model.Product;
@@ -18,9 +19,14 @@ public class ProductService {
 	public List<Product> getAllProduct(){
 		List<Product> allitems=  new ArrayList<Product>();
 		prorepo.findAll().forEach(itm -> allitems.add(itm));;
-		
+		System.out.println("into getAllProduct");
 		return allitems;
 		
+	}
+	@Cacheable("support")
+	public List<Product> supportedproducts() {
+		System.out.println("supportedproducts");
+		return getAllProduct();
 	}
 	public void save(Product itm) {
 		prorepo.save(itm);

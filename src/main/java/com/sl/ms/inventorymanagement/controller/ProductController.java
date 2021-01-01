@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,6 +62,11 @@ public class ProductController {
 	private Product getproduct(@PathVariable("product_id") int id) {
 
 		return proService.getById(id);
+	}
+	@GetMapping("/supportedproducts")
+	private List<Product> supportedproducts(){
+		return proService.supportedproducts();
+		
 	}
 	@PostMapping("/products/{product_id}")
 	private Product saveproduct(@PathVariable("product_id") int id, @RequestBody Product product) {
