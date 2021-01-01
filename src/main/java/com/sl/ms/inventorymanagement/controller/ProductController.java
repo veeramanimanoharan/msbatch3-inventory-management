@@ -12,9 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,6 +35,8 @@ import com.sl.ms.inventorymanagement.model.Inventory;
 import com.sl.ms.inventorymanagement.model.Product;
 import com.sl.ms.inventorymanagement.service.InventoryService;
 import com.sl.ms.inventorymanagement.service.ProductService;
+
+import brave.sampler.Sampler;
 
 
 
@@ -53,8 +58,16 @@ public class ProductController {
 	@Autowired
 	ProductService proService;
 	
+	private static Logger logger = LoggerFactory.getLogger(ProductController.class);
+	
+//	@Autowired
+//	public Sampler defaultSampler() {
+//		return Sampler.ALWAYS_SAMPLE;
+//	}
+	
 	@GetMapping("/products")
 	private List<Product> getAllProduct(){
+		 logger.info("Into getAllProduct Controller");
 		return proService.getAllProduct();
 		
 	}
@@ -106,6 +119,7 @@ public class ProductController {
 	}
 	@GetMapping("/checkproductavail/{product_id}")
 	private boolean checkProductAvail(@PathVariable("product_id") int id){
+		logger.info("Into checkproductavail Controller");
 		return proService.check(id);
 		
 	}
