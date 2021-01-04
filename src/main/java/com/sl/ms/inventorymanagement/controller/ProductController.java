@@ -73,16 +73,18 @@ public class ProductController {
 	}
 	@GetMapping("/products/{product_id}")
 	private Product getproduct(@PathVariable("product_id") int id) {
-
+		logger.info("Into getProductbyID Controller");
 		return proService.getById(id);
 	}
 	@GetMapping("/supportedproducts")
 	private List<Product> supportedproducts(){
+		logger.info("Into Supported Product Controller");
 		return proService.supportedproducts();
 		
 	}
 	@PostMapping("/products/{product_id}")
 	private Product saveproduct(@PathVariable("product_id") int id, @RequestBody Product product) {
+		logger.info("Into Post Product Controller");
 		product.setId(id);
 		proService.save(product);
 		return product;
@@ -96,6 +98,7 @@ public class ProductController {
 //	}
 	@PostMapping("/products")
 	private List<Product> saveproducts(@RequestBody List<Product> products) {
+		logger.info("Into Post Muti Product Controller");
 		proService.savelist(products);
 		return products;
 
@@ -103,12 +106,14 @@ public class ProductController {
 	
 	@DeleteMapping("/products/{product_id}")
 	private Product deleteproduct(@PathVariable("product_id") int id) {
+		logger.info("Into Delete Product Controller");
 		Product tt = proService.getById(id);
 		proService.delete(id);
 		return tt;
 	}
 	@PutMapping("/products/{product_id}")
 	private Product updateproduct(@PathVariable("product_id") int id, @RequestBody Product product1) {
+		logger.info("Into Update Product Controller");
 		Product product = proService.getById(id);
 		product.setName(product1.getName());
 		product.setPrice(product1.getPrice());
@@ -142,19 +147,19 @@ public class ProductController {
 	private String uploadMultiFile(@RequestParam("file") MultipartFile[] files) throws IOException  
 	{
 //	System.out.println(files.length+ "    ");
-	
+		logger.info("Into uploadMultiFile Controller no of files ="+files.length);
 	for (int i = 0; i < files.length; i++) {
 		MultipartFile file = files[i];
 
 		Path filePath = Paths.get(System.getProperty("java.io.tmpdir"), file.getOriginalFilename());
 
-//		System.out.println(filePath);
+		logger.info(filePath.toString());
 		file.transferTo(filePath);
 		readcsv(filePath.toString());
 		File filed = new File(filePath.toString()); 
 		filed.delete();
 	}
-	
+	logger.info("Successfulle uploaded");
 			return "File Uploaded sucessfully";
 	
 	}
@@ -168,14 +173,15 @@ public class ProductController {
 
 //		System.out.println(filePath);
 		file.transferTo(filePath);
-//		System.out.println(filePath.toString());
+		logger.info(filePath.toString());
 		readcsv(filePath.toString());
-
+		logger.info("File Uploaded sucessfully");
 		return "File Uploaded sucessfully";
 	
 	}
 	private  void readcsv(String csvfile) throws  IOException {
 
+		logger.info("InTo CSV Reader");
 		CSVReader reader;
 		try {
 			reader = new CSVReader(new FileReader(csvfile), ',');
@@ -194,7 +200,7 @@ public class ProductController {
 			pro.setPrice(Double.parseDouble(record[2]));
 			pro.setQuantity(Integer.parseInt(record[3]));
 			prods.add(pro);
-//			System.out.println(pro);
+			logger.info(pro.toString());
 //			proService.save(pro);
 			
 		}
@@ -207,7 +213,7 @@ public class ProductController {
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         String arrayToJson = objectMapper.writeValueAsString(prods);
 //        System.out.println("1. Convert List of person objects to JSON :");
-//        System.out.println(arrayToJson);
+        logger.info(arrayToJson);
         
         
 		Inventory inv = new Inventory();
