@@ -10,14 +10,9 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,8 +30,6 @@ import com.sl.ms.inventorymanagement.model.Inventory;
 import com.sl.ms.inventorymanagement.model.Product;
 import com.sl.ms.inventorymanagement.service.InventoryService;
 import com.sl.ms.inventorymanagement.service.ProductService;
-
-import brave.sampler.Sampler;
 
 
 
@@ -179,6 +172,7 @@ public class ProductController {
 		return "File Uploaded sucessfully";
 	
 	}
+	@SuppressWarnings("deprecation")
 	private  void readcsv(String csvfile) throws  IOException {
 
 		logger.info("InTo CSV Reader");
